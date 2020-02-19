@@ -1,4 +1,5 @@
 import React from "react";
+import { Draggable } from "react-beautiful-dnd";
 
 import "./ContactItem.styles.css";
 
@@ -6,15 +7,27 @@ interface Props {
   name: string;
   phoneNumber: string;
   email: string;
+  index: number;
 }
 
-const ContactItem: React.FC<Props> = ({ name, phoneNumber, email }) => {
+const ContactItem: React.FC<Props> = ({ name, phoneNumber, email, index }) => {
   return (
-    <div className="contactitem-container">
-      <div>{name}</div>
-      <div>{phoneNumber}</div>
-      <div>{email}</div>
-    </div>
+    <Draggable draggableId={name} index={index}>
+      {provided => (
+        <div
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          className="contactitem-container"
+        >
+          <div>
+            <b>{name}</b>
+          </div>
+          <div>{phoneNumber}</div>
+          <div>{email}</div>
+        </div>
+      )}
+    </Draggable>
   );
 };
 
