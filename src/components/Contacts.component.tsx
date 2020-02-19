@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
+import AddAndEditUser from "./AddAndEditUser.component";
+import Button from "./Button.component";
 import ContactItem from "./ContactItem.component";
 
 import "./Contacts.styles.css";
@@ -21,10 +23,10 @@ type ContactList = {
 interface Props {}
 
 const Contacts: React.FC<Props> = () => {
-  const initialState: ContactList =
-    JSON.parse(localStorage.getItem("contacts")!) || placeholderContacts;
+  const initialState: ContactList = /* JSON.parse(localStorage.getItem("contacts")!) || */ placeholderContacts;
 
   const [contacts, setContacts] = useState(initialState);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     console.log(contacts);
@@ -59,6 +61,12 @@ const Contacts: React.FC<Props> = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
+      <AddAndEditUser
+        visible={visible}
+        setVisible={setVisible}
+        contacts={contacts}
+        setContacts={setContacts}
+      />
       <Droppable droppableId="list">
         {provided => (
           <div
@@ -67,12 +75,21 @@ const Contacts: React.FC<Props> = () => {
             className="contacts-container"
           >
             <h2>Contacts</h2>
+            <div className="contacts-titles">
+              <b>Name</b>
+              <b>Phone Number</b>
+              <b>Email</b>
+            </div>
             {contacts.map((contact, index) => (
-              <ContactItem key={contact.name} {...contact} index={index} />
+              <ContactItem
+                key={contact.name + index}
+                {...contact}
+                index={index}
+              />
             ))}
-
             {/* This is used to create space in the <Droppable /> as needed during a drag */}
             {provided.placeholder}
+            <Button onClick={() => setVisible(true)}>Add User</Button>
           </div>
         )}
       </Droppable>
