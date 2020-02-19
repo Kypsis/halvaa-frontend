@@ -21,7 +21,15 @@ type ContactList = {
 interface Props {}
 
 const Contacts: React.FC<Props> = () => {
-  const [contacts, setContacts] = useState(placeholderContacts);
+  const initialState: ContactList =
+    JSON.parse(localStorage.getItem("contacts")!) || placeholderContacts;
+
+  const [contacts, setContacts] = useState(initialState);
+
+  useEffect(() => {
+    console.log(contacts);
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts]);
 
   const reorder = (list: ContactList, startIndex: number, endIndex: number) => {
     const result = list;
@@ -46,7 +54,7 @@ const Contacts: React.FC<Props> = () => {
       result.destination.index
     );
 
-    setContacts(reorderedContacts);
+    setContacts([...reorderedContacts]);
   };
 
   return (
