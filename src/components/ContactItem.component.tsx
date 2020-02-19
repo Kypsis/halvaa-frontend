@@ -1,9 +1,21 @@
 import React from "react";
 
-interface Props {}
+import "./ContactItem.styles.css";
 
-const ContactItem: React.FC<Props> = () => {
-  return <div>Contact Item</div>;
+interface Props {
+  name: string;
+  phoneNumber: string;
+  email: string;
+}
+
+const ContactItem: React.FC<Props> = ({ name, phoneNumber, email }) => {
+  return (
+    <div className="contactitem-container">
+      <div>{name}</div>
+      <div>{phoneNumber}</div>
+      <div>{email}</div>
+    </div>
+  );
 };
 
 export default ContactItem;

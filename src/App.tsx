@@ -1,13 +1,13 @@
 import React from "react";
 
-import ContactPage from "./pages/ContactPage.component";
+import Contacts from "./components/Contacts.component";
 
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <ContactPage />
+      <Contacts />
     </div>
   );
 }
