@@ -5,7 +5,7 @@ import Button from "../Button/Button.component";
 import "./AddContactModal.styles.css";
 
 interface Props {
-  setContacts(prevState: any): void;
+  setContacts: React.Dispatch<React.SetStateAction<any>>;
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }

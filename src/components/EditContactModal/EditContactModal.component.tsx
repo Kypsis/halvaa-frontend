@@ -8,7 +8,7 @@ import "./EditContactModal.styles.css";
 interface Props {
   currentContactIndex: number;
   contacts: ContactList;
-  setContacts(prevState: any): void;
+  setContacts: React.Dispatch<React.SetStateAction<any>>;
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }

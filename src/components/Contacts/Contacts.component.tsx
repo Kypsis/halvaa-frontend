@@ -24,15 +24,16 @@ export type ContactList = {
 interface Props {}
 
 const Contacts: React.FC<Props> = () => {
-  const initialState: ContactList = /* JSON.parse(localStorage.getItem("contacts")!) || */ placeholderContacts;
+  const initialState: ContactList =
+    JSON.parse(localStorage.getItem("contacts")!) || placeholderContacts;
 
   const [contacts, setContacts] = useState(initialState);
   const [currentContactIndex, setCurrentContactIndex] = useState(0);
   const [addContactModalVisible, setAddContactModalVisible] = useState(false);
   const [editContactModalVisible, setEditContactModalVisible] = useState(false);
 
+  // Store contacts in localstorage everytime contacts state changes
   useEffect(() => {
-    console.log(currentContactIndex);
     localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts, currentContactIndex]);
 
