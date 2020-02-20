@@ -2,17 +2,15 @@ import React, { useState } from "react";
 
 import Button from "../Button/Button.component";
 
-import "./AddAndEditUser.styles.css";
+import "./AddContactModal.styles.css";
 
 interface Props {
-  /* addUser(): any; */
-  contacts: any;
-  setContacts: any;
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setContacts(prevState: any): void;
   visible: boolean;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ConfirmDeleteModal: React.FC<Props> = props => {
+const AddContactModal: React.FC<Props> = props => {
   const [userDetails, setUserDetails] = useState({
     name: "",
     phoneNumber: "",
@@ -26,9 +24,14 @@ const ConfirmDeleteModal: React.FC<Props> = props => {
     setUserDetails({ ...userDetails, [name]: value });
   };
 
-  const handleSubmit = async (event: any): Promise<void> => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    props.setContacts([...props.contacts, { ...userDetails }]);
+    props.setContacts((prevState: any) => [...prevState, { ...userDetails }]);
+    setUserDetails({
+      name: "",
+      phoneNumber: "",
+      email: ""
+    });
     props.setVisible(false);
   };
 
@@ -38,7 +41,7 @@ const ConfirmDeleteModal: React.FC<Props> = props => {
       style={{ visibility: props.visible ? "visible" : "hidden" }}
     >
       <div className="modal-card">
-        <h2>Add User</h2>
+        <h2>Add Contact</h2>
         <form className="modal-form" onSubmit={handleSubmit}>
           <span>
             <b>Name</b>
@@ -46,7 +49,6 @@ const ConfirmDeleteModal: React.FC<Props> = props => {
           <input
             name="name"
             type="text"
-            /* placeholder={t("forms.enterEmail")} */
             value={name}
             onChange={handleChange}
             required
@@ -57,7 +59,6 @@ const ConfirmDeleteModal: React.FC<Props> = props => {
           <input
             name="phoneNumber"
             type="number"
-            /* placeholder={t("forms.enterPassword")} */
             value={phoneNumber}
             pattern="[0-9]*"
             onChange={handleChange}
@@ -69,15 +70,14 @@ const ConfirmDeleteModal: React.FC<Props> = props => {
           <input
             name="email"
             type="email"
-            /* placeholder={t("forms.enterPassword")} */
             value={email}
             onChange={handleChange}
             required
           />
           <div className="modal-buttons">
-            <Button style={{ width: "6em" }}>Add User</Button>
+            <Button style={{ width: "8em" }}>Add Contact</Button>
             <Button
-              style={{ width: "6em" }}
+              style={{ width: "8em" }}
               onClick={e => {
                 e.preventDefault();
                 props.setVisible(false);
@@ -92,4 +92,4 @@ const ConfirmDeleteModal: React.FC<Props> = props => {
   );
 };
 
-export default ConfirmDeleteModal;
+export default AddContactModal;

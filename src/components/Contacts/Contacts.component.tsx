@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
-import AddAndEditUser from "../AddAndEditUser/AddAndEditUser.component";
+import AddContactModal from "../AddContactModal/AddContactModal.component";
+import EditContactModal from "../EditContactModal/EditContactModal.component";
 import Button from "../Button/Button.component";
 import ContactItem from "../ContactsItem/ContactsItem.component";
 
@@ -14,7 +15,7 @@ const placeholderContacts = [
   { name: "Bob Kiwi", phoneNumber: "13577531", email: "test4@test.io" }
 ];
 
-type ContactList = {
+export type ContactList = {
   name: string;
   phoneNumber: string;
   email: string;
@@ -26,12 +27,14 @@ const Contacts: React.FC<Props> = () => {
   const initialState: ContactList = /* JSON.parse(localStorage.getItem("contacts")!) || */ placeholderContacts;
 
   const [contacts, setContacts] = useState(initialState);
-  const [visible, setVisible] = useState(false);
+  const [currentContactIndex, setCurrentContactIndex] = useState(0);
+  const [addContactModalVisible, setAddContactModalVisible] = useState(false);
+  const [editContactModalVisible, setEditContactModalVisible] = useState(false);
 
   useEffect(() => {
-    console.log(contacts);
+    console.log(currentContactIndex);
     localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
+  }, [contacts, currentContactIndex]);
 
   const reorder = (list: ContactList, startIndex: number, endIndex: number) => {
     const result = list;
@@ -41,7 +44,7 @@ const Contacts: React.FC<Props> = () => {
     return result;
   };
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: any): void => {
     if (!result.destination) {
       return;
     }
@@ -59,41 +62,72 @@ const Contacts: React.FC<Props> = () => {
     setContacts([...reorderedContacts]);
   };
 
+  const deleteContact = (contactIndex: number): void => {
+    setContacts(
+      contacts.filter(contact => contact.name !== contacts[contactIndex].name)
+    );
+  };
+
+  // Optimization so all children of <Droppable /> wouldn't rerender when drag ends.
+  const ContactList = React.memo(function ContactList(props: {
+    contacts: any;
+  }) {
+    return props.contacts.map((contact: any, index: number) => (
+      <ContactItem
+        index={index}
+        key={contact.name + index}
+        deleteContact={deleteContact}
+        setCurrentContactIndex={setCurrentContactIndex}
+        setEditContactModalVisible={setEditContactModalVisible}
+        {...contact}
+      />
+    ));
+  });
+
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <AddAndEditUser
-        visible={visible}
-        setVisible={setVisible}
+    <div className="contacts-container">
+      <AddContactModal
+        setContacts={setContacts}
+        visible={addContactModalVisible}
+        setVisible={setAddContactModalVisible}
+      />
+      <EditContactModal
+        currentContactIndex={currentContactIndex}
         contacts={contacts}
         setContacts={setContacts}
+        visible={editContactModalVisible}
+        setVisible={setEditContactModalVisible}
       />
-      <Droppable droppableId="list">
-        {provided => (
-          <div
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            className="contacts-container"
-          >
-            <h2>Contacts</h2>
-            <div className="contacts-titles">
-              <b>Name</b>
-              <b>Phone Number</b>
-              <b>Email</b>
-            </div>
-            {contacts.map((contact, index) => (
-              <ContactItem
-                key={contact.name + index}
-                {...contact}
-                index={index}
-              />
-            ))}
-            {/* This is used to create space in the <Droppable /> as needed during a drag */}
-            {provided.placeholder}
-            <Button onClick={() => setVisible(true)}>Add User</Button>
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+      <div className="contacts-header">
+        <h2>{contacts.length || ""} Contacts</h2>
+        <Button
+          style={{ width: "8em", height: "2.5em" }}
+          onClick={() => setAddContactModalVisible(true)}
+        >
+          Add Contact
+        </Button>
+      </div>
+      <div className="contacts-titles">
+        <b>Name</b>
+        <b>Phone Number</b>
+        <b>Email</b>
+        <b>Actions</b>
+      </div>
+      <div className="contacts-list">
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="list">
+            {provided => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <ContactList contacts={contacts} />
+
+                {/* This is used to create space in the <Droppable /> as needed during a drag. */}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
+    </div>
   );
 };
 

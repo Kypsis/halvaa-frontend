@@ -1,13 +1,22 @@
-.contactitem-container {
-  border: 1px solid black;
+.contactsitem-container {
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+  background-color: rgb(248, 248, 248);
   display: flex;
-  justify-content: space-around;
-  margin: 0.5em;
-  padding: 2em;
-  background-color: aliceblue;
-  border-radius: 5em;
+  justify-content: space-between;
+  padding: 2em 0em;
 }
 
-.contactitem-container > * {
-  margin: 0em 0.5em;
+.contactsitem-container:first-child {
+  border-top: 2px solid white;
+}
+
+.contactsitem-container > * {
+  text-align: center;
+  width: 100%;
+}
+
+.contactsitem-icons > * {
+  cursor: pointer;
+  padding: 0em 1em;
 }
