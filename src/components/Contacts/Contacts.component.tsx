@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
-import AddAndEditUser from "./AddAndEditUser.component";
-import Button from "./Button.component";
-import ContactItem from "./ContactItem.component";
+import AddAndEditUser from "../AddAndEditUser/AddAndEditUser.component";
+import Button from "../Button/Button.component";
+import ContactItem from "../ContactsItem/ContactsItem.component";
 
 import "./Contacts.styles.css";
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Button from "./Button.component";
+import Button from "../Button/Button.component";
 
 import "./AddAndEditUser.styles.css";
 
@@ -13,23 +13,22 @@ interface Props {
 }
 
 const ConfirmDeleteModal: React.FC<Props> = props => {
-  const [userCredentials, setCredentials] = useState({
+  const [userDetails, setUserDetails] = useState({
     name: "",
     phoneNumber: "",
     email: ""
   });
 
-  const { name, phoneNumber, email } = userCredentials;
+  const { name, phoneNumber, email } = userDetails;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value, name } = event.target;
-    setCredentials({ ...userCredentials, [name]: value });
+    setUserDetails({ ...userDetails, [name]: value });
   };
 
   const handleSubmit = async (event: any): Promise<void> => {
     event.preventDefault();
-    console.log(userCredentials);
-    props.setContacts([...props.contacts, { ...userCredentials }]);
+    props.setContacts([...props.contacts, { ...userDetails }]);
     props.setVisible(false);
   };
 
@@ -39,9 +38,11 @@ const ConfirmDeleteModal: React.FC<Props> = props => {
       style={{ visibility: props.visible ? "visible" : "hidden" }}
     >
       <div className="modal-card">
-        <h3>Add User</h3>
-        <form className="signin-form" onSubmit={handleSubmit}>
-          <span>Name</span>
+        <h2>Add User</h2>
+        <form className="modal-form" onSubmit={handleSubmit}>
+          <span>
+            <b>Name</b>
+          </span>
           <input
             name="name"
             type="text"
@@ -50,7 +51,9 @@ const ConfirmDeleteModal: React.FC<Props> = props => {
             onChange={handleChange}
             required
           />
-          <span>Phone Number</span>
+          <span>
+            <b>Phone Number</b>
+          </span>
           <input
             name="phoneNumber"
             type="number"
@@ -60,7 +63,9 @@ const ConfirmDeleteModal: React.FC<Props> = props => {
             onChange={handleChange}
             required
           />
-          <span>Email</span>
+          <span>
+            <b>Email</b>
+          </span>
           <input
             name="email"
             type="email"

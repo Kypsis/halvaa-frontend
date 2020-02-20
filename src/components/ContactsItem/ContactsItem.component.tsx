@@ -1,7 +1,7 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 
-import "./ContactItem.styles.css";
+import "./ContactsItem.styles.css";
 
 interface Props {
   name: string;
