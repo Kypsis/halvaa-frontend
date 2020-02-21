@@ -4,38 +4,38 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import AddContactModal from "../AddContactModal/AddContactModal.component";
 import EditContactModal from "../EditContactModal/EditContactModal.component";
 import Button from "../Button/Button.component";
-import ContactItem from "../ContactsItem/ContactsItem.component";
+import ContactsItem from "../ContactsItem/ContactsItem.component";
 
+import {
+  getAllDbContacts,
+  deleteDbContact
+} from "../../utlities/contactsDbActions";
 import "./Contacts.styles.css";
 
-const placeholderContacts = [
-  { name: "Joe Banana", phoneNumber: "12345678", email: "test1@test.io" },
-  { name: "Tom Apple", phoneNumber: "87654321", email: "test2@test.io" },
-  { name: "Mike Melon", phoneNumber: "24688642", email: "test3@test.io" },
-  { name: "Bob Kiwi", phoneNumber: "13577531", email: "test4@test.io" }
-];
-
 export type ContactList = {
+  id: number;
   name: string;
-  phoneNumber: string;
+  phonenumber: string;
   email: string;
 }[];
 
 interface Props {}
 
 const Contacts: React.FC<Props> = () => {
-  const initialState: ContactList =
-    JSON.parse(localStorage.getItem("contacts")!) || placeholderContacts;
-
-  const [contacts, setContacts] = useState(initialState);
+  const [contacts, setContacts] = useState<ContactList | []>([]);
   const [currentContactIndex, setCurrentContactIndex] = useState(0);
   const [addContactModalVisible, setAddContactModalVisible] = useState(false);
   const [editContactModalVisible, setEditContactModalVisible] = useState(false);
 
+  useEffect(() => {
+    getAllDbContacts(setContacts);
+  }, []);
+
   // Store contacts in localstorage everytime contacts state changes
   useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts, currentContactIndex]);
+    /* localStorage.setItem("contacts", JSON.stringify(contacts));  */
+    console.log(contacts);
+  }, [contacts]);
 
   const reorder = (list: ContactList, startIndex: number, endIndex: number) => {
     const result = list;
@@ -64,9 +64,7 @@ const Contacts: React.FC<Props> = () => {
   };
 
   const deleteContact = (contactIndex: number): void => {
-    setContacts(
-      contacts.filter(contact => contact.name !== contacts[contactIndex].name)
-    );
+    deleteDbContact(contacts[contactIndex].id, setContacts);
   };
 
   // Optimization so all children of <Droppable /> wouldn't rerender when drag ends.
@@ -74,7 +72,8 @@ const Contacts: React.FC<Props> = () => {
     contacts: any;
   }) {
     return props.contacts.map((contact: any, index: number) => (
-      <ContactItem
+      <ContactsItem
+        id={contact.id}
         index={index}
         key={contact.name + index}
         deleteContact={deleteContact}
@@ -88,6 +87,7 @@ const Contacts: React.FC<Props> = () => {
   return (
     <div className="contacts-container">
       <AddContactModal
+        currentContactIndex={currentContactIndex}
         setContacts={setContacts}
         visible={addContactModalVisible}
         setVisible={setAddContactModalVisible}

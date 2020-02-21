@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import Button from "../Button/Button.component";
 import { ContactList } from "../Contacts/Contacts.component";
 
+import { editDbContact } from "../../utlities/contactsDbActions";
 import "./EditContactModal.styles.css";
 
 interface Props {
@@ -16,19 +18,20 @@ interface Props {
 const EditContactModal: React.FC<Props> = props => {
   const [userDetails, setUserDetails] = useState({
     name: "",
-    phoneNumber: "",
+    phonenumber: "",
     email: ""
   });
 
-  const { name, phoneNumber, email } = userDetails;
+  const { name, phonenumber, email } = userDetails;
 
   useEffect(() => {
     setUserDetails({
-      name: props?.contacts[props.currentContactIndex]?.name,
-      phoneNumber: props?.contacts[props.currentContactIndex]?.phoneNumber,
-      email: props?.contacts[props.currentContactIndex]?.email
+      name: props?.contacts[props.currentContactIndex]?.name ?? "",
+      phonenumber:
+        props?.contacts[props.currentContactIndex]?.phonenumber ?? "",
+      email: props?.contacts[props.currentContactIndex]?.email ?? ""
     });
-  }, [props, props.contacts, props.currentContactIndex, props.visible]);
+  }, [props, props.contacts]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value, name } = event.target;
@@ -37,13 +40,21 @@ const EditContactModal: React.FC<Props> = props => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    props.setContacts((prevState: any) =>
+
+    /* props.setContacts((prevState: any) =>
       prevState.map((contact: { [key: string]: string }) =>
         contact.name === prevState[props.currentContactIndex].name
           ? { ...userDetails }
           : contact
       )
     );
+
+    axios
+      .put("http://localhost:5000/api/contacts", { ...userDetails })
+      .then(response => console.log(response))
+      .catch(error => console.log(error.message)); */
+    editDbContact(props.currentContactIndex, userDetails, props.setContacts);
+
     props.setVisible(false);
   };
 
@@ -61,7 +72,7 @@ const EditContactModal: React.FC<Props> = props => {
           <input
             name="name"
             type="text"
-            /* placeholder={props.contacts[props.currentContactIndex].name} */
+            /* placeholder={props.contacts[props.currentContactId].name} */
             value={name}
             onChange={handleChange}
             required
@@ -70,10 +81,10 @@ const EditContactModal: React.FC<Props> = props => {
             <b>Phone Number</b>
           </span>
           <input
-            name="phoneNumber"
+            name="phonenumber"
             type="number"
-            /* placeholder={props.contacts[props.currentContactIndex].phoneNumber} */
-            value={phoneNumber}
+            /* placeholder={props.contacts[props.currentContactId].phonenumber} */
+            value={phonenumber}
             pattern="[0-9]*"
             onChange={handleChange}
             required
@@ -84,7 +95,7 @@ const EditContactModal: React.FC<Props> = props => {
           <input
             name="email"
             type="email"
-            /* placeholder={props.contacts[props.currentContactIndex].email} */
+            /* placeholder={props.contacts[props.currentContactId].email} */
             value={email}
             onChange={handleChange}
             required

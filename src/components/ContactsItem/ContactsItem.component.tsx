@@ -6,18 +6,20 @@ import "./ContactsItem.styles.css";
 
 interface Props {
   name: string;
-  phoneNumber: string;
+  phonenumber: string;
   email: string;
+  id: number;
   index: number;
   deleteContact(contactIndex: number): void;
   setCurrentContactIndex(arg: number): void;
   setEditContactModalVisible(arg: boolean): void;
 }
 
-const ContactItem: React.FC<Props> = ({
+const ContactsItem: React.FC<Props> = ({
   name,
-  phoneNumber,
+  phonenumber,
   email,
+  id,
   index,
   deleteContact,
   setCurrentContactIndex,
@@ -38,7 +40,7 @@ const ContactItem: React.FC<Props> = ({
           className="contactsitem-container"
         >
           <div>{name}</div>
-          <div>{phoneNumber}</div>
+          <div>{phonenumber}</div>
           <div>{email}</div>
           <div className="contactsitem-icons">
             <FaEdit onClick={handleEdit} />
@@ -50,4 +52,4 @@ const ContactItem: React.FC<Props> = ({
   );
 };
 
-export default ContactItem;
+export default ContactsItem;

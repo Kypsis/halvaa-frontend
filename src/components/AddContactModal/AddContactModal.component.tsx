@@ -2,9 +2,11 @@ import React, { useState } from "react";
 
 import Button from "../Button/Button.component";
 
+import { addDbContact } from "../../utlities/contactsDbActions";
 import "./AddContactModal.styles.css";
 
 interface Props {
+  currentContactIndex: number;
   setContacts: React.Dispatch<React.SetStateAction<any>>;
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,11 +15,11 @@ interface Props {
 const AddContactModal: React.FC<Props> = props => {
   const [userDetails, setUserDetails] = useState({
     name: "",
-    phoneNumber: "",
+    phonenumber: "",
     email: ""
   });
 
-  const { name, phoneNumber, email } = userDetails;
+  const { name, phonenumber, email } = userDetails;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value, name } = event.target;
@@ -26,12 +28,17 @@ const AddContactModal: React.FC<Props> = props => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    props.setContacts((prevState: any) => [...prevState, { ...userDetails }]);
+
+    /* props.setContacts((prevState: any) => [...prevState, { ...userDetails }]); */
+
+    addDbContact(userDetails, props.setContacts);
+
     setUserDetails({
       name: "",
-      phoneNumber: "",
+      phonenumber: "",
       email: ""
     });
+
     props.setVisible(false);
   };
 
@@ -57,9 +64,9 @@ const AddContactModal: React.FC<Props> = props => {
             <b>Phone Number</b>
           </span>
           <input
-            name="phoneNumber"
+            name="phonenumber"
             type="number"
-            value={phoneNumber}
+            value={phonenumber}
             pattern="[0-9]*"
             onChange={handleChange}
             required
