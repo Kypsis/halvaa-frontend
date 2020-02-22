@@ -22,19 +22,22 @@ export type ContactList = {
 interface Props {}
 
 const Contacts: React.FC<Props> = () => {
-  const [contacts, setContacts] = useState<ContactList | []>([]);
+  // Get local state from localStorage
+  const [contacts, setContacts] = useState<ContactList | []>(
+    JSON.parse(localStorage.getItem("contacts")!) || []
+  );
   const [currentContactIndex, setCurrentContactIndex] = useState(0);
   const [addContactModalVisible, setAddContactModalVisible] = useState(false);
   const [editContactModalVisible, setEditContactModalVisible] = useState(false);
 
   useEffect(() => {
     getAllDbContacts(setContacts);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Store contacts in localstorage everytime contacts state changes
   useEffect(() => {
-    /* localStorage.setItem("contacts", JSON.stringify(contacts));  */
-    console.log(contacts);
+    localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts]);
 
   const reorder = (list: ContactList, startIndex: number, endIndex: number) => {

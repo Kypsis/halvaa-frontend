@@ -1,10 +1,10 @@
-.modal-buttons {
+.addmodal-buttons {
   display: flex;
   justify-content: space-around;
   margin: 1.5em;
 }
 
-.modal-card {
+.addmodal-card {
   align-items: center;
   background-color: white;
   border-radius: 5px;
@@ -19,20 +19,21 @@
   box-shadow: 0px 3px 7px -2px rgba(0, 0, 0, 0.6);
 }
 
-.modal-container {
+.addmodal-container {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.561);
   display: flex;
   justify-content: center;
-  position: absolute;
-  height: 100vh;
-  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
-.modal-form {
+.addmodal-form {
   display: flex;
   flex-direction: column;
-  width: 100%;
 }
 
 b {

@@ -2,9 +2,10 @@
   background-color: rgb(248, 248, 248);
   border-bottom: 1px solid white;
   border-top: 1px solid white;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-content: space-between;
-  padding: 2em 0em;
+  padding: 1.5em 0em;
 }
 
 .contactsitem-container:first-child {
@@ -13,10 +14,9 @@
 
 .contactsitem-container > * {
   text-align: center;
-  width: 100%;
 }
 
 .contactsitem-icons > * {
   cursor: pointer;
-  padding: 0em 1em;
+  padding-left: 2em;
 }

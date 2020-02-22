@@ -44,12 +44,12 @@ const AddContactModal: React.FC<Props> = props => {
 
   return (
     <div
-      className="modal-container"
+      className="addmodal-container"
       style={{ visibility: props.visible ? "visible" : "hidden" }}
     >
-      <div className="modal-card">
+      <div className="addmodal-card">
         <h2>Add Contact</h2>
-        <form className="modal-form" onSubmit={handleSubmit}>
+        <form className="addmodal-form" onSubmit={handleSubmit}>
           <span>
             <b>Name</b>
           </span>
@@ -81,7 +81,7 @@ const AddContactModal: React.FC<Props> = props => {
             onChange={handleChange}
             required
           />
-          <div className="modal-buttons">
+          <div className="addmodal-buttons">
             <Button style={{ width: "8em" }}>Add Contact</Button>
             <Button
               style={{ width: "8em" }}

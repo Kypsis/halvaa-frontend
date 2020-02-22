@@ -1,12 +1,8 @@
 body {
   box-sizing: border-box;
-  height: 100vh;
+  background-color: rgb(246, 246, 246);
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body > * {
-  height: 100%;
 }

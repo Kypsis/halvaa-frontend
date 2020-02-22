@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 import Button from "../Button/Button.component";
 import { ContactList } from "../Contacts/Contacts.component";
@@ -15,7 +14,7 @@ interface Props {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EditContactModal: React.FC<Props> = props => {
+const EditContacteditmodal: React.FC<Props> = props => {
   const [userDetails, setUserDetails] = useState({
     name: "",
     phonenumber: "",
@@ -60,12 +59,12 @@ const EditContactModal: React.FC<Props> = props => {
 
   return (
     <div
-      className="modal-container"
+      className="editmodal-container"
       style={{ visibility: props.visible ? "visible" : "hidden" }}
     >
-      <div className="modal-card">
+      <div className="editmodal-card">
         <h2>Edit Contact</h2>
-        <form className="modal-form" onSubmit={handleSubmit}>
+        <form className="editmodal-form" onSubmit={handleSubmit}>
           <span>
             <b>Name</b>
           </span>
@@ -100,7 +99,7 @@ const EditContactModal: React.FC<Props> = props => {
             onChange={handleChange}
             required
           />
-          <div className="modal-buttons">
+          <div className="editmodal-buttons">
             <Button style={{ width: "8em" }}>Confirm Edit</Button>
             <Button
               style={{ width: "8em" }}
@@ -118,4 +117,4 @@ const EditContactModal: React.FC<Props> = props => {
   );
 };
 
-export default EditContactModal;
+export default EditContacteditmodal;

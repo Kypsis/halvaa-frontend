@@ -1,18 +1,23 @@
 import axios from "axios";
 
+import getStateAndDbDifference from "./getStateAndDbDifference";
+import { ContactList } from "../components/Contacts/Contacts.component";
+
 type UserDetails = {
   name: string;
   phonenumber: string;
   email: string;
 };
 
-export const getAllDbContacts = (
+export const getAllDbContacts = async (
   setState: React.Dispatch<React.SetStateAction<any>>
-): void => {
-  axios
+): Promise<void> => {
+  await axios
     .get("http://localhost:5000/api/contacts")
-    .then(response => {
-      setState(response.data);
+    .then((response: any) => {
+      setState((prevState: ContactList | []) =>
+        getStateAndDbDifference(response.data, prevState)
+      );
     })
     .catch(error => console.log(error.message));
 };
@@ -27,8 +32,10 @@ export const addDbContact = async (
 
   await axios
     .get("http://localhost:5000/api/contacts")
-    .then(response => {
-      setState(response.data);
+    .then((response: any) => {
+      setState((prevState: ContactList | []) =>
+        getStateAndDbDifference(response.data, prevState)
+      );
     })
     .catch(error => console.log(error.message));
 };
@@ -44,8 +51,10 @@ export const editDbContact = async (
 
   await axios
     .get("http://localhost:5000/api/contacts")
-    .then(response => {
-      setState(response.data);
+    .then((response: any) => {
+      setState((prevState: ContactList | []) =>
+        getStateAndDbDifference(response.data, prevState)
+      );
     })
     .catch(error => console.log(error.message));
 };
@@ -60,8 +69,10 @@ export const deleteDbContact = async (
 
   await axios
     .get("http://localhost:5000/api/contacts")
-    .then(response => {
-      setState(response.data);
+    .then((response: any) => {
+      setState((prevState: ContactList | []) =>
+        getStateAndDbDifference(response.data, prevState)
+      );
     })
     .catch(error => console.log(error.message));
 };
