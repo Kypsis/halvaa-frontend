@@ -1,16 +1,17 @@
 .contactsitem-container {
-  background-color: rgb(248, 248, 248);
-  border-bottom: 1px solid white;
-  border-top: 1px solid white;
+  background-color: rgba(228, 236, 255, 0.8);
+  /* border-bottom: 1px solid white;
+  border-top: 1px solid white; */
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-content: space-between;
   padding: 1.5em 0em;
+  margin: 2px 0px;
 }
 
-.contactsitem-container:first-child {
+/* .contactsitem-container:first-child {
   border-top: 2px solid white;
-}
+} */
 
 .contactsitem-container > * {
   text-align: center;
