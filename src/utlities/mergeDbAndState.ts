@@ -4,7 +4,7 @@ type Item = {
   [key: string]: string | number;
 };
 
-const mergeDbAndState = (dbResponse: any, state: ContactList) => {
+const mergeDbAndState = (dbResponse: ContactList, state: ContactList) => {
   // Create a Map of current contacts state to preserve the order of the contact list
   // (Map object returns keys in order of insertion).
   const mapOfState = new Map(
@@ -22,11 +22,12 @@ const mergeDbAndState = (dbResponse: any, state: ContactList) => {
       // Overwrite mapItem with dbItem...
       mapOfState.set(dbItem["id"], { ...mapItem, ...dbItem });
     } else {
-      // ... or if not mapItem create one from dbItem
+      // ... or if no mapItem exists create one from dbItem
       mapOfState.set(dbItem["id"], { ...dbItem });
     }
   }
 
+  // If DB has less contacts than state then remove extra contacts from state.
   for (const stateItem of state) {
     const mapItem = mapOfState.get(stateItem["id"]);
     if (!mapOfDb.has(mapItem!.id)) mapOfState.delete(mapItem!.id);
