@@ -40,6 +40,11 @@ const Contacts: React.FC<Props> = () => {
     localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts]);
 
+  const deleteContact = (contactIndex: number): void => {
+    deleteDbContact(contacts[contactIndex].id, setContacts);
+  };
+
+  // Drag and drop reorder function
   const reorder = (list: ContactList, startIndex: number, endIndex: number) => {
     const result = list;
     const [removed] = result.splice(startIndex, 1);
@@ -66,10 +71,6 @@ const Contacts: React.FC<Props> = () => {
     setContacts([...reorderedContacts]);
   };
 
-  const deleteContact = (contactIndex: number): void => {
-    deleteDbContact(contacts[contactIndex].id, setContacts);
-  };
-
   // Optimization so all children of <Droppable /> wouldn't rerender when drag ends.
   const ContactList = React.memo(function ContactList(props: {
     contacts: any;
@@ -90,14 +91,14 @@ const Contacts: React.FC<Props> = () => {
   return (
     <div className="contacts-container">
       <AddContactModal
-        currentContactIndex={currentContactIndex}
         setContacts={setContacts}
+        currentContactIndex={currentContactIndex}
         visible={addContactModalVisible}
         setVisible={setAddContactModalVisible}
       />
       <EditContactModal
-        currentContactIndex={currentContactIndex}
         contacts={contacts}
+        currentContactIndex={currentContactIndex}
         setContacts={setContacts}
         visible={editContactModalVisible}
         setVisible={setEditContactModalVisible}

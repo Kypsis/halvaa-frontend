@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import getStateAndDbDifference from "./getStateAndDbDifference";
+import mergeDbAndState from "./mergeDbAndState";
 import { ContactList } from "../components/Contacts/Contacts.component";
 
 type UserDetails = {
@@ -16,7 +16,7 @@ export const getAllDbContacts = async (
     .get("http://localhost:5000/api/contacts")
     .then((response: any) => {
       setState((prevState: ContactList | []) =>
-        getStateAndDbDifference(response.data, prevState)
+        mergeDbAndState(response.data, prevState)
       );
     })
     .catch(error => console.log(error.message));
@@ -34,7 +34,7 @@ export const addDbContact = async (
     .get("http://localhost:5000/api/contacts")
     .then((response: any) => {
       setState((prevState: ContactList | []) =>
-        getStateAndDbDifference(response.data, prevState)
+        mergeDbAndState(response.data, prevState)
       );
     })
     .catch(error => console.log(error.message));
@@ -52,8 +52,10 @@ export const editDbContact = async (
   await axios
     .get("http://localhost:5000/api/contacts")
     .then((response: any) => {
+      console.log(response.data);
+
       setState((prevState: ContactList | []) =>
-        getStateAndDbDifference(response.data, prevState)
+        mergeDbAndState(response.data, prevState)
       );
     })
     .catch(error => console.log(error.message));
@@ -71,7 +73,7 @@ export const deleteDbContact = async (
     .get("http://localhost:5000/api/contacts")
     .then((response: any) => {
       setState((prevState: ContactList | []) =>
-        getStateAndDbDifference(response.data, prevState)
+        mergeDbAndState(response.data, prevState)
       );
     })
     .catch(error => console.log(error.message));

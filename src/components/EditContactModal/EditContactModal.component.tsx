@@ -40,19 +40,11 @@ const EditContacteditmodal: React.FC<Props> = props => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    /* props.setContacts((prevState: any) =>
-      prevState.map((contact: { [key: string]: string }) =>
-        contact.name === prevState[props.currentContactIndex].name
-          ? { ...userDetails }
-          : contact
-      )
+    editDbContact(
+      props?.contacts[props.currentContactIndex]?.id,
+      userDetails,
+      props.setContacts
     );
-
-    axios
-      .put("http://localhost:5000/api/contacts", { ...userDetails })
-      .then(response => console.log(response))
-      .catch(error => console.log(error.message)); */
-    editDbContact(props.currentContactIndex, userDetails, props.setContacts);
 
     props.setVisible(false);
   };

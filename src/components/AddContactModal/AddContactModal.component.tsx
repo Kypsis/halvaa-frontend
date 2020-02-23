@@ -29,8 +29,6 @@ const AddContactModal: React.FC<Props> = props => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    /* props.setContacts((prevState: any) => [...prevState, { ...userDetails }]); */
-
     addDbContact(userDetails, props.setContacts);
 
     setUserDetails({
